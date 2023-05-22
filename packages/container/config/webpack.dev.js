@@ -1,28 +1,26 @@
 // funcion que permite mergear 2 objetos de config de webpack
 // en este caso common con dev o prod
 const { merge } = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const commonConfig = require('./webpack.common')
+const commonConfig = require('./webpack.common');
+// puedo acceder al contenido de package.json, lo voy a usar para no tener que actualizar 'shared' a mano
+const packageJson = require('../package.json');
 
 const devConfig = {
 	mode: 'development',
 	devServer: {
-		port: 8081,
+		port: 8080,
 		historyApiFallback: {
 			index: '/index.html'
 		}
 	},
 	plugins: [
 		new ModuleFederationPlugin({
-			name: 'marketing',
-			filename: 'remoteEntry.js',
-			exposes: {
-				'./MarketingApp': './src/bootstrap'
+			name: 'container', // optional
+			remotes: {
+				marketing: 'marketing@http://localhost:8081/remoteEntry.js'
 			},
-		}),
-		new HtmlWebpackPlugin({
-			template: './public/index.html'
+			shared: packageJson.dependencies,
 		}),
 	]
 };
