@@ -21,4 +21,5 @@ const prodConfig = {
 	]
 };
 
+// mergea los 2
 module.exports = merge(commonConfig, prodConfig);
