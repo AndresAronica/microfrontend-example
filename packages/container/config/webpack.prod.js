@@ -9,7 +9,8 @@ const prodConfig = {
 	mode: 'production',
 	output: {
 		// template para nombrar los archivos que van a prod
-		filename: '[name].[contenthash].js'
+		filename: '[name].[contenthash].js',
+		publicPath: '/container/latest/'
 	},
 	plugins: [
 		new ModuleFederationPlugin({
